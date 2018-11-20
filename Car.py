@@ -1,5 +1,7 @@
 import math
 from tkinter import *
+import random
+#from Road import TRoad
 
 
 class TCar:
@@ -29,10 +31,3 @@ class TCar:
         self.angle -= phi
         if self.angle < 0:
             self.angle += 2 * math.pi
-
-    def respawn(self, x, y, angle):
-        """Перемещение машинки в заданные координаты"""
-        self.x = x
-        self.y = y
-        self.angle = angle
-        self.isLive = True

@@ -1,9 +1,9 @@
 from Car import TCar
 import math
 from tkinter import *
-from PIL import Image
 import numpy as np
-from scipy import ndimage
+from PIL import Image
+
 
 class TRoad:
 
@@ -15,13 +15,18 @@ class TRoad:
         self.b = int((n-1)/2)
         self.RoadFunction = RoadFunction
         self.weight = weight
+        img = Image.open('road.jpg')
+        arr = np.asarray(img, dtype='uint8')
+
         for i in range(628):
             self.PictureArr.append([])
             for j in range(300):
-                if j-self.weight < self.RoadFunction(i) < j+self.weight:
+                if arr[j][i][0] == 255:
                     self.PictureArr[i].append(0)
                 else:
                     self.PictureArr[i].append(255)
+
+
 
     def paint(self, canvas: Canvas):
         """ процедуры рисования массива карты на canvas """

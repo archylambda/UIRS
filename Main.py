@@ -30,6 +30,21 @@ def htmlcolor(r, g, b):
     b = _chkarg(b)
     return '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
+
+def respawn(car: TCar, road: TRoad):
+    """Перемещение машинки в заданные координаты"""
+    car.isLive = False
+    while not car.isLive:
+        car.x = random.randint(100, 400)
+        for i in range(100, 295):
+            if road.PictureArr[car.x][i] == 0 and road.PictureArr[car.x][i-5] == 0 \
+                    and road.PictureArr[car.x][i+5] == 0 and road.PictureArr[car.x-5][i] == 0 \
+                    and road.PictureArr[car.x+5][i] == 0:
+                car.y = i
+                car.isLive = True
+        car.angle = 0
+
+
 # Вывод экрана с областью видимости машинки
 def draweyecar(car: TCar, canvas: Canvas, road: TRoad):
     Arr = road.slice_see(car)
@@ -174,19 +189,13 @@ neural = NeuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
 
 # Цикл обучения
 for i in range(50):
-    x = random.randint(85, 400)
-    y = road.RoadFunction(x)
-    angle = 0
-    car.respawn(x, y, angle)
+    respawn(car, road)
     while car.isLive:
         update_draws_car(car, canvas, road)
        # draweyecar(car, canvas, road)
        # checkstudy(neural, canvas)
         if car.x > 540:
-            x = random.randint(100, 400)
-            y = road.RoadFunction(x)
-            angle = 0
-            car.respawn(x, y, angle)
+            respawn(car, road)
        # canvas.update()
     print(i)
 
@@ -209,10 +218,7 @@ for i in range(50):
 mid = 0
 # Цикл езды после обучения, на расчитанных весах
 for i in range(10):
-    x = random.randint(100, 400)
-    y = road.RoadFunction(x)
-    angle = 0
-    car.respawn(x, y, angle)
+    respawn(car, road)
     while car.isLive:
         update_draws_car_machine(car, canvas, road)
         #draweyecar(car, canvas, road)
@@ -220,10 +226,7 @@ for i in range(10):
         canvas.update()
         print(car.angle*180/math.pi)
         if car.x > 540:
-            x = random.randint(100, 400)
-            y = road.RoadFunction(x)
-            angle = 0
-            car.respawn(x, y, angle)
+            respawn(car, road)
         mid += 1
     print(i)
 print("mid =", mid/100)
