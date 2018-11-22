@@ -26,7 +26,7 @@ class TCar:
         if self.angle > 2 * math.pi:
             self.angle -= 2 * math.pi
 
-    def turn_right(self, phi=math.pi/15.0):
+    def turn_right(self, phi=math.pi/13.0):
         """Поворот вектора скорости по часовой стрелки на угол phi"""
         self.angle -= phi
         if self.angle < 0:
